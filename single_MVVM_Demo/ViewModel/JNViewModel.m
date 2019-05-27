@@ -7,54 +7,66 @@
 //
 
 #import "JNViewModel.h"
-#import "JNModel.h"
+
+
+@interface JNViewModel ()
+
+@property (nonatomic, copy) succ succ;/**<请求成功*/
+
+@property (nonatomic, copy) fail fail;/**<请求成功*/
+@end
+
 @implementation JNViewModel
 
 
-- (instancetype)init{
+- (instancetype)initWithSucc:(succ)succ fail:(fail)fail {
     self = [super init];
     if (self) {
-        _refreshBtnHidden = NO;
-        _tableViewHidden = YES;
-        _refreshBtnEnabled = YES;
+        _succ = succ;
+        _fail = fail;
         _datas = [NSMutableArray new];
+        [self addObserver:self forKeyPath:@"selectName" options:NSKeyValueObservingOptionNew context:nil];
     }
     return self;
+
 }
 
-- (void)refreshBtnAction {
-    self.refreshBtnEnabled = NO;
-    if ([self.updateUIDelegate respondsToSelector:@selector(updateUI)]){
-        [self.updateUIDelegate updateUI];
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    NSString *selectName = change[NSKeyValueChangeNewKey];
+    @synchronized (self) {
+       NSInteger index = [self.datas indexOfObjectPassingTest:^BOOL(JNModel *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+           return [obj.name isEqualToString:selectName];
+        }];
+        [self.datas removeObjectAtIndex:index];
     }
-    
+    if (self.succ) {
+        self.succ(self.datas);
+    }
+}
+- (void)dealloc {
+    [self removeObserver:self forKeyPath:@"selectName" context:nil];
+}
+
+- (void)refreshAction {
     //模拟请求
     [[NSOperationQueue new] addOperationWithBlock:^{
-        sleep(3);
-        [self.datas removeAllObjects];
-        for (int i = 0; i<30; i++) {
-            JNModel *model = [[JNModel alloc] init];
-            model.name = [NSString stringWithFormat:@"test%d",i];
-            model.idNumber = [NSString stringWithFormat:@"atTest%d",i];
-            [self.datas addObject:model];
+        @synchronized (self) {
+            [self.datas removeAllObjects];
+            for (int i = 0; i<30; i++) {
+                JNModel *model = [[JNModel alloc] init];
+                model.name = [NSString stringWithFormat:@"test%d",i];
+                model.idNumber = [NSString stringWithFormat:@"atTest%d",i];
+                [self.datas addObject:model];
+            }
         }
-
+        sleep(2.0);
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            self.refreshBtnEnabled = YES;
-            self.refreshBtnHidden = YES;
-            self.tableViewHidden = NO;
-            if ([self.updateUIDelegate respondsToSelector:@selector(updateUI)]){
-                [self.updateUIDelegate updateUI];
+            if (self.succ) {
+                self.succ(self.datas);
             }
         }];
     }];
 }
 
 
-- (void)didSelectAction:(NSInteger)row {
-    JNModel *model = self.datas[row];
-    if ([self.updateUIDelegate respondsToSelector:@selector(didSelectAction:)]){
-        [self.updateUIDelegate didSelectAction:model.name];
-    }
-}
 @end

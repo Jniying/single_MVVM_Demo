@@ -8,6 +8,18 @@
 
 #import "JNBaseViewModel.h"
 
+
+
+
 @implementation JNBaseViewModel
+
+- (instancetype)initWithSucc:(succ)succ fail:(fail)fail {
+    self = [super init];
+    if (self) {
+        
+    }
+    return self;
+}
+
 
 @end

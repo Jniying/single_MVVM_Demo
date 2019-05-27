@@ -7,11 +7,14 @@
 //
 
 #import "JNViewController.h"
+
+
 #import "JNViewModel.h"
 #import "JNTableViewCell.h"
-@interface JNViewController ()<UITableViewDelegate,UITableViewDataSource,JNViewModelUpdateUIDelegate>
+
+@interface JNViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;/**<*/
-@property (nonatomic, strong) UIButton *refreshBtn;/**<加载数据*/
+@property (nonatomic, strong) UIButton *refreshBtn;
 @property (nonatomic, strong) JNViewModel *viewModel;/**<*/
 @end
 
@@ -19,10 +22,21 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.viewModel = [[JNViewModel alloc] init];
-    self.viewModel.updateUIDelegate = self;
+
+ 
     [self setupSubViews];
-    [self updateUI];
+    [self bindModel];
+    
+}
+
+- (void)bindModel {
+    __weak typeof(self) weekSelf = self;
+    self.viewModel = [[JNViewModel alloc] initWithSucc:^(id  _Nonnull datas) {
+        weekSelf.refreshBtn.hidden = YES;
+        [self.tableView reloadData];
+    } fail:^{
+        
+    }];
 }
 
 #pragma mark --setup subViews
@@ -42,7 +56,12 @@
     [self.view addSubview:self.tableView];
     [self.view addSubview:self.refreshBtn];
     
-    [self.refreshBtn addTarget:self.viewModel action:@selector(refreshBtnAction) forControlEvents:UIControlEventTouchUpInside];
+    [self.refreshBtn addTarget:self action:@selector(refreshBtnAction) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)refreshBtnAction{
+    self.refreshBtn.enabled = NO;
+    [self.viewModel refreshAction];
 }
 
 #pragma mark --UITableViewDelegate,UITableViewDataSource
@@ -52,7 +71,9 @@
     if (cell == nil) {
         cell = [[JNTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellId];
     }
-    [cell sutupData:self.viewModel.datas[indexPath.row]];
+    JNModel *model = self.viewModel.datas[indexPath.row];
+    cell.textLabel.text = model.name;
+    cell.detailTextLabel.text = model.idNumber;
     return cell;
 
 }
@@ -63,27 +84,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [self.viewModel didSelectAction:indexPath.row];
+    JNModel *model = self.viewModel.datas[indexPath.row];
+    self.viewModel.selectName = model.name;
 }
 
-
-#pragma mark --JNViewModelUpdateUIDelegate
-//更新ui
-- (void)updateUI {
-    self.tableView.hidden = self.viewModel.tableViewHidden;
-    self.refreshBtn.hidden = self.viewModel.refreshBtnHidden;
-    self.refreshBtn.enabled = self.viewModel.refreshBtnEnabled;
-    
-    if (!self.tableView.hidden) {
-        [self.tableView reloadData];
-    }
-}
-//ui业务处理
-- (void)didSelectAction:(id)object {
-    UIAlertController *alertVc = [UIAlertController alertControllerWithTitle:object message:@"详细的说明" preferredStyle:UIAlertControllerStyleAlert];
-    [alertVc addAction:[UIAlertAction actionWithTitle:@"关闭" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        
-    }]];
-    [self presentViewController:alertVc animated:YES completion:nil];
-}
 @end

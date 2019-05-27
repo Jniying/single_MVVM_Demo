@@ -7,22 +7,16 @@
 //
 
 #import "JNBaseViewModel.h"
-
-
-
+#import "JNModel.h"
+#import <UIKit/UIKit.h>
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JNViewModel : JNBaseViewModel
 
-@property (nonatomic, assign) BOOL refreshBtnEnabled;/**<更新按钮是否可以点击 默认为Yes*/
-@property (nonatomic, assign) BOOL refreshBtnHidden;/**<更新按钮是否显示 默认为NO*/
-@property (nonatomic, assign) BOOL tableViewHidden;/**<列表是否展示 默认为YES*/
+
+@property (nonatomic, copy) NSString *selectName; /**<被选中的的*/
 @property (nonatomic, strong) NSMutableArray *datas;/**<数据*/
-
-//点击按钮加载数据
-- (void)refreshBtnAction;
-
-- (void)didSelectAction:(NSInteger)row;
+- (void)refreshAction;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -11,7 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JNTableViewCell : UITableViewCell
-- (void)sutupData:(id)data;
+
+
 @end
 
 NS_ASSUME_NONNULL_END

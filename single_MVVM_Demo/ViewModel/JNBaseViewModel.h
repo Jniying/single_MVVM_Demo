@@ -12,16 +12,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol JNViewModelUpdateUIDelegate <NSObject>
-//更新UI的代理
-- (void)updateUI;
-//响应代理
-- (void)didSelectAction:(id)object;
-@end
 
+typedef void(^succ)(id datas);
+typedef void(^fail)(void);
 
 @interface JNBaseViewModel : NSObject
-@property (nonatomic, weak) id <JNViewModelUpdateUIDelegate> updateUIDelegate;/**<更新UI的代理*/
+
+
+- (instancetype)initWithSucc:(succ)succ fail:(fail)fail;
+
 @end
 
 NS_ASSUME_NONNULL_END

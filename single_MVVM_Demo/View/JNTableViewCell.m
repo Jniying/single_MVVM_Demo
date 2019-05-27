@@ -7,15 +7,9 @@
 //
 
 #import "JNTableViewCell.h"
-#import "JNModel.h"
 
 @implementation JNTableViewCell
 
-
-- (void)sutupData:(JNModel *)data {
-    self.textLabel.text = data.name;
-    self.detailTextLabel.text = data.idNumber;
-}
 
 - (void)awakeFromNib {
     [super awakeFromNib];
