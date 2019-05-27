@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		18E2E092229B8A7B00653A05 /* JNTableDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E2E091229B8A7B00653A05 /* JNTableDataSource.m */; };
 		9F3F5BDD21E9D96B00ADF761 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F3F5BDC21E9D96B00ADF761 /* AppDelegate.m */; };
 		9F3F5BE521E9D97100ADF761 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9F3F5BE421E9D97100ADF761 /* Assets.xcassets */; };
 		9F3F5BE821E9D97100ADF761 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9F3F5BE621E9D97100ADF761 /* LaunchScreen.storyboard */; };
@@ -38,6 +39,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		18E2E090229B8A7B00653A05 /* JNTableDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JNTableDataSource.h; sourceTree = "<group>"; };
+		18E2E091229B8A7B00653A05 /* JNTableDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JNTableDataSource.m; sourceTree = "<group>"; };
 		9F3F5BD821E9D96B00ADF761 /* single_MVVM_Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = single_MVVM_Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F3F5BDB21E9D96B00ADF761 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9F3F5BDC21E9D96B00ADF761 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -159,6 +162,8 @@
 				9F3F5C1421E9DDAC00ADF761 /* JNViewModel.m */,
 				9F3F5C1921EC2F2B00ADF761 /* JNBaseViewModel.h */,
 				9F3F5C1A21EC2F2B00ADF761 /* JNBaseViewModel.m */,
+				18E2E090229B8A7B00653A05 /* JNTableDataSource.h */,
+				18E2E091229B8A7B00653A05 /* JNTableDataSource.m */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -311,6 +316,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9F3F5C1521E9DDAC00ADF761 /* JNViewModel.m in Sources */,
+				18E2E092229B8A7B00653A05 /* JNTableDataSource.m in Sources */,
 				9F3F5BEB21E9D97100ADF761 /* main.m in Sources */,
 				9F3F5C1821E9DDBC00ADF761 /* JNModel.m in Sources */,
 				9F3F5C1B21EC2F2B00ADF761 /* JNBaseViewModel.m in Sources */,
