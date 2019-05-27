@@ -8,7 +8,7 @@
 
 #import "JNBaseViewModel.h"
 #import "JNModel.h"
-#import <UIKit/UIKit.h>
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface JNViewModel : JNBaseViewModel
